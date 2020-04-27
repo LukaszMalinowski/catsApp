@@ -1,5 +1,6 @@
 package net.ddns.kotki.kotkiapp;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -38,14 +39,10 @@ public class DogService {
             in.close();
         }
 
-        return parseToUrl(stringBuilder.toString());
-    }
+        String json = stringBuilder.toString();
+        json = json.substring(1, json.length()-1);
+        JSONObject jsonObject = new JSONObject(json);
 
-    public String parseToUrl(String json) {
-        String[] split = json.split(",");
-        String url = split[2];
-
-        url = url.substring(url.indexOf(":") + 2, url.length()-1);
-        return url;
+        return jsonObject.getString("url");
     }
 }

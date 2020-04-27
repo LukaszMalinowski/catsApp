@@ -1,5 +1,6 @@
 package net.ddns.kotki.kotkiapp;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -38,34 +39,10 @@ public class CatService {
             in.close();
         }
 
-        return parseToUrl(stringBuilder.toString());
-    }
+        String json = stringBuilder.toString();
+        json = json.substring(1, json.length()-1);
+        JSONObject jsonObject = new JSONObject(json);
 
-    public String parseToUrl(String json) {
-        String[] split = json.split(",");
-        String url = split[2];
-
-        url = url.substring(url.indexOf(":") + 2, url.length()-1);
-        return url;
+        return jsonObject.getString("url");
     }
 }
-
-//    Socket socket = new Socket(catUrl.getHost(), 80);
-//    String request = "GET / HTTP/1.0\r\n\r\n";
-//
-//    OutputStream out = socket.getOutputStream();
-//        out.write(request.getBytes());
-//                out.flush();
-//
-//                StringBuilder stringBuilder = new StringBuilder();
-//
-//                InputStream in = socket.getInputStream();
-//
-//                int ch;
-//
-//                while ((ch = in.read()) != -1) {
-//                stringBuilder.append((char) ch);
-//                }
-//
-//                return stringBuilder.toString();
-
