@@ -32,10 +32,11 @@ public class LikedAnimalsGui extends VerticalLayout {
 
         List<Animal> allAnimals = service.getAllAnimals((UserDetails)user);
 
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
         if(allAnimals != null && !allAnimals.isEmpty()) {
             Stream<Image> images = allAnimals.stream().map(Animal::getUrl).map(url -> new Image(url, "błąd obrazka"));
-
-            setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+            
             images.forEach(image -> {
                 image.setMaxWidth("500px");
                 image.setMaxHeight("500px");
