@@ -10,7 +10,7 @@ import net.ddns.kotki.kotkiapp.model.AnimalType;
 import net.ddns.kotki.kotkiapp.service.AnimalService;
 
 @Route ("")
-@StyleSheet("css/style.css")
+@StyleSheet("/css/style.css")
 public class CatPicGui extends VerticalLayout {
 
     private AnimalService animalService;
@@ -48,13 +48,12 @@ public class CatPicGui extends VerticalLayout {
              else {
                  image.setSrc(animalService.getAnimal(AnimalType.DOG));
              }
-//             image.setMaxHeight("400px");
             image.setMaxWidth("500px");
             image.setMaxHeight("500px");
              image.setSizeFull();
-//             image.setMaxWidth("400px");
         });
 
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         add(button);
         add(radioButtonGroup);
         add(image);
