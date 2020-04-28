@@ -9,11 +9,8 @@ import com.vaadin.flow.router.Route;
 import net.ddns.kotki.kotkiapp.dao.AnimalRepository;
 import net.ddns.kotki.kotkiapp.dao.UserRepository;
 import net.ddns.kotki.kotkiapp.entity.Animal;
-import net.ddns.kotki.kotkiapp.entity.User;
-import net.ddns.kotki.kotkiapp.model.AnimalType;
+import net.ddns.kotki.kotkiapp.entity.AnimalType;
 import net.ddns.kotki.kotkiapp.service.AnimalService;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 
 @Route ("")
 @StyleSheet("/css/style.css")
@@ -54,27 +51,22 @@ public class CatPicGui extends VerticalLayout {
         Image image = new Image();
 
         button.addClickListener(clickEvent -> {
+            Animal animal = null;
             if(button.getText().equals(kotki)) {
-                image.setSrc(animalService.getAnimal(AnimalType.CAT));
-             }
-             else {
-                 image.setSrc(animalService.getAnimal(AnimalType.DOG));
-             }
+                animal = animalService.getAnimal(AnimalType.CAT);
+            }
+            else {
+                animal = animalService.getAnimal(AnimalType.DOG);
+            }
+            image.setSrc(animal.getUrl());
             image.setMaxWidth("500px");
             image.setMaxHeight("500px");
-             image.setSizeFull();
-
-            userRepository.save(new User(1L, "Jan", "Jan123", "USER"));
-            animalRepository.save(new Animal(1L, userRepository.findById(1L).get(),"https://cdn2.thecatapi.com/images/2np.jpg", AnimalType.CAT));
-        });
+            image.setSizeFull();
+           });
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         add(button);
         add(radioButtonGroup);
         add(image);
     }
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void start() {
-            }
 }

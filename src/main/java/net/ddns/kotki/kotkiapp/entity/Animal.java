@@ -1,7 +1,5 @@
 package net.ddns.kotki.kotkiapp.entity;
 
-import net.ddns.kotki.kotkiapp.model.AnimalType;
-
 import javax.persistence.*;
 
 @Entity
