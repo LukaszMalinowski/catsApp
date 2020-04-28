@@ -9,11 +9,13 @@ import org.json.JSONObject;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.*;
+import java.util.List;
 
 @Service
 public class AnimalService {
@@ -49,10 +51,20 @@ public class AnimalService {
         return new Animal(null, null, body.getString("url"), animalType);
     }
 
-    @EventListener (ApplicationReadyEvent.class)
-    public void start() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userRepository.save(new User(1L, "Jan", encoder.encode("Jan123"), "USER"));
-        animalRepository.save(new Animal(1L, userRepository.findById(1L).get(), "https://cdn2.thecatapi.com/images/2np.jpg", AnimalType.CAT));
+    public void saveAnimal(UserDetails user, Animal animal) {
+        animal.setUser(userRepository.findByUsername(user.getUsername()));
+        animalRepository.save(animal);
     }
+
+    public List<Animal> getAllAnimals(UserDetails user) {
+        return animalRepository.findAllByUser(userRepository.findByUsername(user.getUsername()));
+    }
+
+//    @EventListener (ApplicationReadyEvent.class)
+//    public void start() {
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        userRepository.save(new User(1L, "Jan", encoder.encode("Jan123"), "USER"));
+//        userRepository.save(new User(2L, "Kacha", encoder.encode("kachakacha"), "USER"));
+//        animalRepository.save(new Animal(1L, userRepository.findById(1L).get(), "https://cdn2.thecatapi.com/images/2np.jpg", AnimalType.CAT));
+//    }
 }

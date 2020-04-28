@@ -24,6 +24,13 @@ public class Animal {
     public Animal() {
     }
 
+    public Animal(Animal animal) {
+        this.id = animal.id;
+        this.url = animal.url;
+        this.user = animal.user;
+        this.animalType = animal.animalType;
+    }
+
     public Animal(Long id, User user, String url, AnimalType animalType) {
         this.id = id;
         this.url = url;
