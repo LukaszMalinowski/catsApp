@@ -1,29 +1,24 @@
-package net.ddns.kotki.kotkiapp;
+package net.ddns.kotki.kotkiapp.gui;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.Route;
-
-import java.io.IOException;
+import net.ddns.kotki.kotkiapp.model.AnimalType;
+import net.ddns.kotki.kotkiapp.service.AnimalService;
 
 @Route ("")
 public class CatPicGui extends VerticalLayout {
 
-    private CatService catService;
-
-    private DogService dogService;
-
-
+    private AnimalService animalService;
 
     private final String kotki = "Wyświetl kotka";
 
     private final String pieski = "Wyświetl pieska";
 
-    public CatPicGui(CatService catService, DogService dogService) {
-        this.catService = catService;
-        this.dogService = dogService;
+    public CatPicGui(AnimalService animalService) {
+        this.animalService = animalService;
 
         Button button = new Button("Wyświetl kotka");
 
@@ -45,17 +40,14 @@ public class CatPicGui extends VerticalLayout {
         Image image = new Image();
 
         button.addClickListener(clickEvent -> {
-            try {
-                if(button.getText().equals(kotki)) {
-                    image.setSrc(catService.getCat());
-                 }
-                 else {
-                     image.setSrc(dogService.getDog());
-                 }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            if(button.getText().equals(kotki)) {
+                image.setSrc(animalService.getAnimal(AnimalType.CAT));
+             }
+             else {
+                 image.setSrc(animalService.getAnimal(AnimalType.DOG));
+             }
+             image.setMaxHeight("400px");
+             image.setMaxWidth("400px");
         });
 
         add(button);
