@@ -46,8 +46,11 @@ public class CatPicGui extends VerticalLayout {
              else {
                  image.setSrc(animalService.getAnimal(AnimalType.DOG));
              }
-             image.setMaxHeight("400px");
-             image.setMaxWidth("400px");
+//             image.setMaxHeight("400px");
+            image.setMaxWidth("500px");
+            image.setMaxHeight("500px");
+             image.setSizeFull();
+//             image.setMaxWidth("400px");
         });
 
         add(button);
