@@ -1,6 +1,7 @@
 package net.ddns.kotki.kotkiapp.gui;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -9,6 +10,7 @@ import net.ddns.kotki.kotkiapp.model.AnimalType;
 import net.ddns.kotki.kotkiapp.service.AnimalService;
 
 @Route ("")
+@StyleSheet("css/style.css")
 public class CatPicGui extends VerticalLayout {
 
     private AnimalService animalService;
