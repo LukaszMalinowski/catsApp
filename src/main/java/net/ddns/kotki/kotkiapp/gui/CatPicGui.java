@@ -6,8 +6,14 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.Route;
+import net.ddns.kotki.kotkiapp.dao.AnimalRepository;
+import net.ddns.kotki.kotkiapp.dao.UserRepository;
+import net.ddns.kotki.kotkiapp.entity.Animal;
+import net.ddns.kotki.kotkiapp.entity.User;
 import net.ddns.kotki.kotkiapp.model.AnimalType;
 import net.ddns.kotki.kotkiapp.service.AnimalService;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 @Route ("")
 @StyleSheet("/css/style.css")
@@ -15,12 +21,18 @@ public class CatPicGui extends VerticalLayout {
 
     private AnimalService animalService;
 
+    private AnimalRepository animalRepository;
+
+    private UserRepository userRepository;
+
     private final String kotki = "Wyświetl kotka";
 
     private final String pieski = "Wyświetl pieska";
 
-    public CatPicGui(AnimalService animalService) {
+    public CatPicGui(AnimalService animalService, AnimalRepository animalRepository, UserRepository userRepository) {
         this.animalService = animalService;
+        this.animalRepository = animalRepository;
+        this.userRepository = userRepository;
 
         Button button = new Button("Wyświetl kotka");
 
@@ -51,6 +63,9 @@ public class CatPicGui extends VerticalLayout {
             image.setMaxWidth("500px");
             image.setMaxHeight("500px");
              image.setSizeFull();
+
+            userRepository.save(new User(1L, "Jan", "Jan123", "USER"));
+            animalRepository.save(new Animal(1L, userRepository.findById(1L).get(),"https://cdn2.thecatapi.com/images/2np.jpg", AnimalType.CAT));
         });
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -58,4 +73,8 @@ public class CatPicGui extends VerticalLayout {
         add(radioButtonGroup);
         add(image);
     }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void start() {
+            }
 }
