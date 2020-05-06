@@ -1,4 +1,4 @@
-package net.ddns.kotki.kotkiapp.entity;
+package net.ddns.lukaszm.catsapp.entity;
 
 public enum AnimalType {
     CAT, DOG

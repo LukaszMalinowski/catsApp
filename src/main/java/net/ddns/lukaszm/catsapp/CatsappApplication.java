@@ -1,13 +1,13 @@
-package net.ddns.kotki.kotkiapp;
+package net.ddns.lukaszm.catsapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KotkiappApplication {
+public class CatsappApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KotkiappApplication.class, args);
+        SpringApplication.run(CatsappApplication.class, args);
     }
 
 }

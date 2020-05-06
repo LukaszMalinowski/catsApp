@@ -1,6 +1,6 @@
-package net.ddns.kotki.kotkiapp.config;
+package net.ddns.lukaszm.catsapp.config;
 
-import net.ddns.kotki.kotkiapp.dao.UserRepository;
+import net.ddns.lukaszm.catsapp.dao.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

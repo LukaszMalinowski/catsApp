@@ -1,4 +1,4 @@
-package net.ddns.kotki.kotkiapp.gui;
+package net.ddns.lukaszm.catsapp.gui;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -6,8 +6,8 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import net.ddns.kotki.kotkiapp.entity.Animal;
-import net.ddns.kotki.kotkiapp.service.AnimalService;
+import net.ddns.lukaszm.catsapp.entity.Animal;
+import net.ddns.lukaszm.catsapp.service.AnimalService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 

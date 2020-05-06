@@ -1,7 +1,7 @@
-package net.ddns.kotki.kotkiapp.dao;
+package net.ddns.lukaszm.catsapp.dao;
 
-import net.ddns.kotki.kotkiapp.entity.Animal;
-import net.ddns.kotki.kotkiapp.entity.User;
+import net.ddns.lukaszm.catsapp.entity.Animal;
+import net.ddns.lukaszm.catsapp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

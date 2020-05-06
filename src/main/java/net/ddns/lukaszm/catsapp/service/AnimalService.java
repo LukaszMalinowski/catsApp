@@ -1,16 +1,12 @@
-package net.ddns.kotki.kotkiapp.service;
+package net.ddns.lukaszm.catsapp.service;
 
-import net.ddns.kotki.kotkiapp.dao.AnimalRepository;
-import net.ddns.kotki.kotkiapp.dao.UserRepository;
-import net.ddns.kotki.kotkiapp.entity.Animal;
-import net.ddns.kotki.kotkiapp.entity.User;
-import net.ddns.kotki.kotkiapp.entity.AnimalType;
+import net.ddns.lukaszm.catsapp.dao.AnimalRepository;
+import net.ddns.lukaszm.catsapp.dao.UserRepository;
+import net.ddns.lukaszm.catsapp.entity.Animal;
+import net.ddns.lukaszm.catsapp.entity.AnimalType;
 import org.json.JSONObject;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -59,12 +55,4 @@ public class AnimalService {
     public List<Animal> getAllAnimals(UserDetails user) {
         return animalRepository.findAllByUser(userRepository.findByUsername(user.getUsername()));
     }
-
-//    @EventListener (ApplicationReadyEvent.class)
-//    public void start() {
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        userRepository.save(new User(1L, "Jan", encoder.encode("Jan123"), "USER"));
-//        userRepository.save(new User(2L, "Kacha", encoder.encode("kachakacha"), "USER"));
-//        animalRepository.save(new Animal(1L, userRepository.findById(1L).get(), "https://cdn2.thecatapi.com/images/2np.jpg", AnimalType.CAT));
-//    }
 }

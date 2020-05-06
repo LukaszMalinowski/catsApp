@@ -1,4 +1,4 @@
-package net.ddns.kotki.kotkiapp.entity;
+package net.ddns.lukaszm.catsapp.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
