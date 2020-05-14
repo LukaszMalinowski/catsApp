@@ -20,9 +20,21 @@ public class PicGui extends VerticalLayout {
 
     private AnimalService animalService;
 
-    private final String kotki = "Wyświetl kotka";
+    private final String BUTTON_CAT_TEXT = "Wyświetl kotka";
 
-    private final String pieski = "Wyświetl pieska";
+    private final String BUTTON_DOG_TEXT = "Wyświetl pieska";
+
+    private Button buttonShow;
+
+    private Button buttonLike;
+
+    private Button buttonGoToLiked;
+
+    Notification notificationAdd;
+
+    RadioButtonGroup<String> radioButtonGroup;
+
+    Image image;
 
     Animal animal;
 
@@ -31,21 +43,70 @@ public class PicGui extends VerticalLayout {
 
         animal = new Animal();
 
-        Button buttonShow = new Button("Wyświetl kotka");
+        initButtons();
 
-        Button buttonLike = new Button(new Icon(VaadinIcon.THUMBS_UP));
+        initNotification();
 
-        Button buttonGoToLiked = new Button("Zobacz polubione obrazki");
+        initRadioButtonGroup();
+
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
+        addComponents();
+    }
+
+    private void initButtons() {
+        buttonShow = new Button(BUTTON_CAT_TEXT);
+
+        buttonLike = new Button(new Icon(VaadinIcon.THUMBS_UP));
+
+        buttonGoToLiked = new Button("Zobacz polubione obrazki");
 
         buttonGoToLiked.addClickListener(event -> UI.getCurrent().navigate("all"));
 
-        //todo dodaj "dodano pieska / kotka"
-        Notification notificationAdd = new Notification(
-                "Dodano zdjęcie do ulubionych!", 3000);
-
         buttonLike.setVisible(false);
 
-        RadioButtonGroup<String> radioButtonGroup = new RadioButtonGroup<>();
+        buttonShow.addClickListener(clickEvent -> {
+            buttonShowHandler();
+        });
+
+        buttonLike.addClickListener(event -> {
+            buttonLikedHandler();
+        });
+    }
+
+    private void buttonShowHandler() {
+        image = new Image();
+
+        buttonLike.setEnabled(true);
+        Animal tempAnimal;
+        if(buttonShow.getText().equals(BUTTON_CAT_TEXT)) {
+            tempAnimal = animalService.getAnimal(AnimalType.CAT);
+        }
+        else {
+            tempAnimal = animalService.getAnimal(AnimalType.DOG);
+        }
+        image.setSrc(tempAnimal.getUrl());
+        image.setMaxWidth("500px");
+        image.setMaxHeight("500px");
+        image.setSizeFull();
+        setAnimal(tempAnimal);
+        buttonLike.setVisible(true);
+    }
+
+    private void buttonLikedHandler() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        animalService.saveAnimal((UserDetails) principal, new Animal(animal));
+        buttonLike.setEnabled(false);
+        notificationAdd.open();
+    }
+
+    private void initNotification() {
+        notificationAdd = new Notification(
+                "Dodano zdjęcie do ulubionych!", 3000);
+    }
+
+    private void initRadioButtonGroup() {
+        radioButtonGroup = new RadioButtonGroup<>();
 
         radioButtonGroup.setLabel("Kotki czy pieski?");
 
@@ -55,38 +116,13 @@ public class PicGui extends VerticalLayout {
 
         radioButtonGroup.addValueChangeListener(event -> {
             if(event.getValue().equals("Kotki"))
-                buttonShow.setText(kotki);
+                buttonShow.setText(BUTTON_CAT_TEXT);
             else
-                buttonShow.setText(pieski);
+                buttonShow.setText(BUTTON_DOG_TEXT);
         });
+    }
 
-        Image image = new Image();
-
-        buttonShow.addClickListener(clickEvent -> {
-            buttonLike.setEnabled(true);
-            Animal tempAnimal = null;
-            if(buttonShow.getText().equals(kotki)) {
-                tempAnimal = animalService.getAnimal(AnimalType.CAT);
-            }
-            else {
-                tempAnimal = animalService.getAnimal(AnimalType.DOG);
-            }
-            image.setSrc(tempAnimal.getUrl());
-            image.setMaxWidth("500px");
-            image.setMaxHeight("500px");
-            image.setSizeFull();
-            setAnimal(tempAnimal);
-            buttonLike.setVisible(true);
-           });
-
-        buttonLike.addClickListener(event -> {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            animalService.saveAnimal((UserDetails) principal, new Animal(animal));
-            buttonLike.setEnabled(false);
-            notificationAdd.open();
-        });
-
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+    private void addComponents() {
         add(buttonShow);
         add(radioButtonGroup);
         add(buttonGoToLiked);

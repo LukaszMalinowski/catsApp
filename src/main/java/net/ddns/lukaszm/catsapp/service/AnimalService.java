@@ -16,6 +16,9 @@ import java.util.List;
 @Service
 public class AnimalService {
 
+    private final String CAT_URL_STRING = "https://api.thecatapi.com/v1/images/search";
+    private final String DOG_URL_STRING = "https://api.thedogapi.com/v1/images/search";
+
     private URI catUrl;
     private URI dogUrl;
 
@@ -23,26 +26,23 @@ public class AnimalService {
     AnimalRepository animalRepository;
 
     public AnimalService(UserRepository userRepository, AnimalRepository animalRepository) throws URISyntaxException {
-        this.catUrl = new URI("https://api.thecatapi.com/v1/images/search");
-        this.dogUrl = new URI("https://api.thedogapi.com/v1/images/search");
+        this.catUrl = new URI(CAT_URL_STRING);
+        this.dogUrl = new URI(DOG_URL_STRING);
 
         this.userRepository = userRepository;
         this.animalRepository = animalRepository;
     }
 
     public Animal getAnimal(AnimalType animalType) {
-        RestTemplate template = new RestTemplate();
 
         ResponseEntity<String> entity;
 
         if(animalType == AnimalType.CAT)
-            entity = template.getForEntity(catUrl, String.class);
+            entity = getRandomCat();
         else
-            entity = template.getForEntity(dogUrl, String.class);
+            entity = getRandomDog();
 
-        String response = entity.getBody().substring(1, entity.getBody().length() -1);
-
-        JSONObject body = new JSONObject(response);
+        JSONObject body = getJsonBody(entity.getBody());
 
         return new Animal(null, null, body.getString("url"), animalType);
     }
@@ -54,5 +54,22 @@ public class AnimalService {
 
     public List<Animal> getAllAnimals(UserDetails user) {
         return animalRepository.findAllByUser(userRepository.findByUsername(user.getUsername()));
+    }
+
+    private ResponseEntity<String> getRandomCat() {
+        return new RestTemplate().getForEntity(catUrl, String.class);
+    }
+
+    private ResponseEntity<String> getRandomDog() {
+        return new RestTemplate().getForEntity(dogUrl, String.class);
+    }
+
+    private JSONObject getJsonBody(String response) {
+        parseResponse(response);
+        return new JSONObject(response);
+    }
+
+    private String parseResponse(String response) {
+        return response.substring(1, response.length() -1);
     }
 }

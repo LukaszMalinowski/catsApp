@@ -28,15 +28,15 @@ public class LikedAnimalsGui extends VerticalLayout {
 
         add(buttonBack);
 
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = getCurrentUser();
 
-        List<Animal> allAnimals = service.getAllAnimals((UserDetails)user);
+        List<Animal> allAnimals = service.getAllAnimals(user);
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
         if(allAnimals != null && !allAnimals.isEmpty()) {
             Stream<Image> images = allAnimals.stream().map(Animal::getUrl).map(url -> new Image(url, "błąd obrazka"));
-            
+
             images.forEach(image -> {
                 image.setMaxWidth("500px");
                 image.setMaxHeight("500px");
@@ -48,5 +48,9 @@ public class LikedAnimalsGui extends VerticalLayout {
             Label label = new Label("Brak obrazków");
             add(label);
         }
+    }
+
+    private UserDetails getCurrentUser() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
